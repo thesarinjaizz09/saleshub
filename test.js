@@ -1,4 +1,4 @@
-const axios = require('axios');
+// const axios = require('axios');
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -35,7 +35,7 @@ app.post('/webhook', async (req, res) => {
     for (const entry of req.body.entry) {
         for (const change of entry.changes) {
             // Process new lead (leadgen_id)
-            await processNewLead(change.value.leadgen_id);
+            // await processNewLead(change.value.leadgen_id);
         }
     }
 
@@ -53,7 +53,12 @@ async function processNewLead(leadId) {
 
     try {
         // Get lead details by lead ID from Facebook API
-        response = await axios.get(`https://graph.facebook.com/v9.0/${leadId}/?access_token=${FACEBOOK_PAGE_ACCESS_TOKEN}`);
+        // response = await axios.get(`https://graph.facebook.com/v9.0/${leadId}/?access_token=${FACEBOOK_PAGE_ACCESS_TOKEN}`);
+        fetch(`https://graph.facebook.com/v9.0/${leadId}/?access_token=${FACEBOOK_PAGE_ACCESS_TOKEN}`)
+            .then(res => res.json())
+            .then(res => {
+                response = res
+            })
     }
     catch (err) {
         // Log errors
